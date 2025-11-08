@@ -78,7 +78,6 @@ python -m venv .venv
 This repo contains a pinned dependency file named `requirements.txt`. To install the packages:
 
 ```bash
-pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
