@@ -46,7 +46,7 @@ Follow these steps to get a local development environment ready. Commands assume
 1) Clone the repo (if not already done)
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/CMC-NCKH-2026/Weather_forcasting
 cd weather_forcast_project
 ```
 
