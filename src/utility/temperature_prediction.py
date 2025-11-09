@@ -19,7 +19,22 @@ class TemperaturePredictor:
         Args:
             input_data (dict): Dictionary with keys matching the features.
                               Values should be scalars (not lists).
-        
+
+            example:
+            {
+                'Temperature (C)': [15.2],             
+                'Apparent Temperature (C)': [14.8],   
+                'Humidity': [0.80],
+                'Wind Speed (km/h)': [12.5],
+                'Wind Bearing (degrees)': [220.0],
+                'Visibility (km)': [9.5],
+                'Pressure (millibars)': [1014.0],
+                'Hour': [14],  # 2 PM
+                'Month': [11], # November
+                'Summary': ['Overcast'],
+                'Precip Type': ['rain']
+            }
+
         Returns:
             float: Predicted temperature for the next hour
         """
