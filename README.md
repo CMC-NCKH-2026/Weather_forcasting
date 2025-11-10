@@ -63,7 +63,7 @@ Windows (Command Prompt)
 
 ```cmd
 python -m venv .venv
-\.venv\Scripts\activate.bat
+.\.venv\Scripts\activate.bat
 ```
 
 Windows (PowerShell)
@@ -81,18 +81,13 @@ This repo contains a pinned dependency file named `requirements.txt`. To install
 python -m pip install -r requirements.txt
 ```
 
-4) Launch JupyterLab and open the notebooks(or you can run it by choosing virtual python environment)
+4) Launch JupyterLab and open the notebooks (or you can run it by choosing virtual python environment)
 
 ```bash
 jupyter lab
 ```
 
 Open the notebooks in the `notebooks/` folder and run cells top-to-bottom.
-
-Running code / automation
--------------------------
-
-- There is no runnable application shipped yet. If you want a repeatable training or evaluation script, we should add a `scripts/` folder with small Python scripts (for example `scripts/train_baseline.py`) and a `Makefile` or `pyproject.toml` task to run them.
 
 Contributing (team guidelines)
 ------------------------------
@@ -107,53 +102,3 @@ We expect team members to follow a lightweight GitHub workflow:
    - Steps to reproduce locally (if applicable)
    - Any environment or dependency changes
 5. Request one approving review from another team member before merging.
-
-Recommended branch protection rules for `main` (set in the GitHub repo settings):
-
-- Require PR reviews before merging (1 approval)
-- Require passing CI (if/when CI is added)
-- Enforce linear history (optional)
-
-Code style and notebooks
-------------------------
-
-- Keep notebooks runnable top-to-bottom; avoid relying on hidden state.
-- When possible, extract reusable code from notebooks into Python modules (e.g., `src/` or `weather/`) and import those modules in notebooks. This makes unit testing and CI easier.
-
-Issues and tasks
-----------------
-
-- Open GitHub Issues for bugs, dataset additions, or feature requests.
-- Use labels (example: `bug`, `enhancement`, `data`, `help wanted`) to triage work.
-
-Maintainers / contacts
-----------------------
-
-- Primary maintainer: add the GitHub username(s) or email(s) here (edit this file).
-- For urgent issues, mention @team or use your team's communication channel.
-
-Notes, known quirks and TODOs
-----------------------------
-
-- Dependency file is named `requirements.txt`.
-- `app.py` is an empty placeholder. We can add a minimal runner or CLI that trains a baseline model and writes outputs to `charts/` and `models/`.
-- Consider adding:
-  - a `Makefile` or `nox`/`tox` configuration for reproducible dev tasks,
-  - a `requirements-dev.txt` for linting/testing tools,
-  - CI (GitHub Actions) to run notebooks (or tests) on PRs.
-
-License
--------
-
-Add a license (for example MIT) if this repository will be public. If you tell me which license to use I can add it.
-
-Getting help
-------------
-
-If you need assistance setting up the environment or would like me to:
-
-- rename the requirements file,
-- add a runnable `app.py` or `scripts/train_baseline.py`, or
-- create a small GitHub Actions workflow to run notebooks on PRs,
-
-tell me which task you prefer and I will implement it.
