@@ -1,3 +1,3 @@
 import src.webserver as webserver
 
-webserver.app.run(debug=False)
+webserver.app.run(deug=False)
