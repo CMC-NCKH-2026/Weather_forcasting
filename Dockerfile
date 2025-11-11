@@ -19,7 +19,7 @@ LABEL org.opencontainers.image.title="Weather App" \
 WORKDIR /weather
 ENV PORT="3636"
 ENV GUNICORN_WORKERS=""
-RUN adduser -D -h /weather weather
+RUN adduser -D -h /weather weather && apk add --no-cache libgomp libstdc++ && rm -rf /var/cache/apk/*
 COPY --from=builder --chown=weather:weather /opt/venv /opt/venv
 COPY --chown=weather:weather . .
 ENV PATH="/opt/venv/bin:$PATH"
