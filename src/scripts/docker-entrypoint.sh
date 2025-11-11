@@ -16,5 +16,5 @@ else
   else
     WORKERS=$GUNICORN_WORKERS
   fi
-  exec /usr/local/lib/python3.14/bin/gunicorn -w "$WORKERS" -b 0.0.0.0:$PORT app:app
+  exec /opt/venv/bin/gunicorn -w "$WORKERS" -b 0.0.0.0:$PORT app:app
 fi

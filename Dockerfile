@@ -4,9 +4,10 @@ WORKDIR /builder
 # in case there is a needed build for wheels, these packages will come in handy (?)
 RUN apk add build-base gfortran pkgconf openblas openblas-dev linux-headers
 COPY requirements.txt .
+RUN python -m venv /opt/venv
 RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --upgrade pip && \
-    pip install -r ./requirements.txt gunicorn
+    /opt/venv/bin/pip install --upgrade pip && \
+    /opt/venv/bin/pip install gunicorn -r ./requirements.txt
 
 FROM python:3.14-alpine
 
@@ -19,8 +20,9 @@ WORKDIR /weather
 ENV PORT="3636"
 ENV GUNICORN_WORKERS=""
 RUN adduser -D -h /weather weather
-COPY --from=builder --chown=weather:weather /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
+COPY --from=builder --chown=weather:weather /opt/venv /opt/venv
 COPY --chown=weather:weather . .
+ENV PATH="/opt/venv/bin:$PATH"
 RUN chmod +x /weather/src/scripts/docker-entrypoint.sh
 USER weather
 EXPOSE $PORT
