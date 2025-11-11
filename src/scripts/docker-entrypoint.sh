@@ -6,7 +6,7 @@ set -e
 # runs with exec for pid1 enabling better docker process management
 
 if [ "$PURE_FLASK" = "true" ]; then
-  exec python3 app.py -p $PORT
+  exec /usr/local/bin/python3 app.py -p $PORT
 else
   if [ -z "$GUNICORN_WORKERS" ]; then
     WORKERS=$(( $(nproc) / 2 ))

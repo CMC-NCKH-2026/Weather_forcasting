@@ -9,7 +9,6 @@ try:
         'precip': PrecipTypePredictor(),
         'temp': TemperaturePredictor()
     }
-    app.logger.info("All prediction models loaded successfully for production.")
 except Exception as e:
     app.logger.critical(f"Failed to load models on startup: {e}")
     raise
