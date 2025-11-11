@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, g
+from flask import Flask, render_template, request, redirect, url_for, g, current_app
 import logging
 import argparse
 
@@ -10,17 +10,6 @@ from src.utility.temperature_prediction import TemperaturePredictor
 app = Flask(__name__)
 
 logging.basicConfig(level=logging.INFO)
-
-try:
-    predictors = {
-        'summary': WeatherSummaryPredictor(),
-        'precip': PrecipTypePredictor(),
-        'temp': TemperaturePredictor()
-    }
-    app.logger.info("All prediction models loaded successfully.")
-except Exception as e:
-    app.logger.critical(f"Failed to load models on startup: {e}")
-
 
 @app.route('/')
 def index():
@@ -47,7 +36,7 @@ def handle_summary_prediction():
             'Precip Type': request.form['precip_type']
         }
 
-        result = predictors['summary'].predict(input_data)
+        result = current_app.predictors['summary'].predict(input_data)
 
         return redirect(url_for('index', mode='summary', result=result))
 
@@ -77,7 +66,7 @@ def handle_precip_prediction():
             'Month': int(request.form['month']),
         }
 
-        result = predictors['precip'].predict(input_data)
+        result = current_app.predictors['precip'].predict(input_data)
         return redirect(url_for('index', mode='precip', result=result))
 
     except (ValueError, KeyError):
@@ -108,8 +97,8 @@ def handle_temp_prediction():
             'Precip Type': request.form['precip_type']
         }
 
-        result_num = predictors['temp'].predict(input_data)
-        result = f"{result_num:.2f} C"  # Formatting is good
+        result_num = current_app.predictors['temp'].predict(input_data)
+        result = f"{result_num:.2f} C"
         return redirect(url_for('index', mode='temp', result=result))
 
     except (ValueError, KeyError):
@@ -137,6 +126,17 @@ if __name__ == '__main__':
 
     if not os.path.exists('templates'):
         os.makedirs('templates')
+
+    try:
+        app.predictors = {
+            'summary': WeatherSummaryPredictor(),
+            'precip': PrecipTypePredictor(),
+            'temp': TemperaturePredictor()
+        }
+        app.logger.info("All prediction models loaded successfully for development.")
+    except Exception as e:
+        app.logger.critical(f"Failed to load models on startup: {e}")
+        raise
 
     app.logger.info(f"Starting server on host 0.0.0.0 and port {args.port}...")
     app.run(host='0.0.0.0', port=args.port, debug=False)

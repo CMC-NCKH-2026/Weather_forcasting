@@ -16,5 +16,5 @@ else
   else
     WORKERS=$GUNICORN_WORKERS
   fi
-  exec /opt/venv/bin/gunicorn -w "$WORKERS" -b 0.0.0.0:$PORT app:app
+  exec /opt/venv/bin/gunicorn -w "$WORKERS" -b 0.0.0.0:$PORT wsgi:app
 fi
