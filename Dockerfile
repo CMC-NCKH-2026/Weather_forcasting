@@ -16,8 +16,8 @@ LABEL org.opencontainers.image.title="Weather App" \
       org.opencontainers.image.version="1.0.0"
 
 WORKDIR /weather
-ENV PORT "3636"
-ENV GUNICORN_WORKERS ""
+ENV PORT="3636"
+ENV GUNICORN_WORKERS=""
 RUN adduser -D -h /weather weather
 COPY --from=builder --chown=weather:weather /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
 COPY --chown=weather:weather . .
