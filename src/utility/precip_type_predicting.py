@@ -49,7 +49,11 @@ class PrecipTypePredictor:
         new_df['month_sin'] = np.sin(2 * np.pi * new_df['Month'] / 12.0)
         new_df['month_cos'] = np.cos(2 * np.pi * new_df['Month'] / 12.0)
 
-       # Make prediction (encoded)
+        # Remove the Hour and Month column, as the models aren't trained with that
+        # inplace so it won't create a new object every call
+        new_df.drop(['Hour', 'Month'], axis=1, inplace=True)
+
+        # Make prediction (encoded)
         pred_encoded = self.model.predict(new_df)
 
         # Convert back to original label
