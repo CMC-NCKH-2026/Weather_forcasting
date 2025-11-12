@@ -64,9 +64,9 @@ def main():
         print("1. Weather Summary Predictor")
         print("2. Precipitation Type Predictor")
         print("3. Temperature Predictor")
-        print("4. Exit")
+        print("0. Exit")
 
-        choice = input("Enter your choice (1-4): ")
+        choice = input("Enter your choice (0-3): ")
 
         if choice == '1':
             try:
@@ -95,7 +95,7 @@ def main():
             except (ValueError, KeyError) as e:
                 print(f"Invalid input: {e}")
 
-        elif choice == '4':
+        elif choice == '0':
             print("Exiting...")
             break
 
