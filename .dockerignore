@@ -194,20 +194,16 @@ Thumbs.db
 .Spotlight-V100
 .Trashes
 
-# notebooks folder
-notebooks
-
-# charts folder
-charts
-
-# data folder
-data
-
-# README file
-README.md
-
-# the .gitignore file itself
-.gitignore
-
-# the whole .git folder
+# ignored files from github
 .git
+.github
+charts
+data
+notebooks
+templates
+.dockerignore
+.gitignore
+console_app.py
+Dockerfile
+README.md
+requirements.txt
