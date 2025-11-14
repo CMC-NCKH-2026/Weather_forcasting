@@ -200,7 +200,6 @@ Thumbs.db
 charts
 data
 notebooks
-templates
 .dockerignore
 .gitignore
 console_app.py
