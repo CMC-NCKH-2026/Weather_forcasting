@@ -4,16 +4,15 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-push:
+  build-and-push-linux:
     runs-on: ubuntu-latest
-
     permissions:
       contents: read
       packages: write
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -28,13 +27,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract Docker metadata
+      - name: Extract Docker metadata (Linux)
         id: meta
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}
 
-      - name: Build and push Docker image
+      - name: Build and push Docker image (Linux)
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -45,3 +44,26 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  build-and-push-windows:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push
+        shell: powershell
+        run: |
+          docker build . -f Dockerfile.win -t ghcr.io/cmc-nckh-2026/weather_forcasting:main
+          docker push ghcr.io/cmc-nckh-2026/weather_forcasting:main

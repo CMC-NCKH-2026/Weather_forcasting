@@ -3,7 +3,6 @@ FROM python:3.14-alpine AS builder
 WORKDIR /builder
 # in case there is a needed build for wheels, these packages will come in handy (?)
 RUN apk add build-base gfortran pkgconf openblas openblas-dev linux-headers
-RUN python -m venv /opt/venv
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --upgrade pip && \
     pip install scikit-learn numpy pandas flask gunicorn
@@ -18,10 +17,12 @@ LABEL org.opencontainers.image.title="Weather App" \
 WORKDIR /weather
 ENV PORT="3636"
 ENV GUNICORN_WORKERS=""
+ENV PURE_FLASK="false"
 RUN adduser -D -h /weather weather && apk add --no-cache libgomp libstdc++ && rm -rf /var/cache/apk/*
 COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
 COPY --from=builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
 COPY --chown=weather:weather . .
+RUN rm /weather/src/scripts/docker-entrypoint.ps1
 USER weather
 EXPOSE $PORT
 
