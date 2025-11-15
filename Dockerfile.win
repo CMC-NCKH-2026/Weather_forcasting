@@ -1,0 +1,41 @@
+# escape=`
+FROM python:3.14-windowsservercore-ltsc2025 AS builder
+
+WORKDIR C:\builder
+# another "in case" when a wheel needs building
+RUN powershell -Command `
+    Invoke-WebRequest -Uri https://aka.ms/vs/17/release/vs_buildtools.exe -OutFile vs_buildtools.exe; `
+    Start-Process -Wait -FilePath .\vs_buildtools.exe -ArgumentList '--quiet', '--wait', '--norestart', '--nocache', `
+    '--installPath', 'C:\BuildTools', `
+    '--add', 'Microsoft.VisualStudio.Workload.VCTools', `
+    '--add', 'Microsoft.VisualStudio.Component.VC.Tools.x86.x64', `
+    '--add', 'Microsoft.VisualStudio.Component.Windows10SDK'; `
+    Remove-Item .\vs_buildtools.exe
+
+RUN pip install --upgrade pip && `
+    pip install scikit-learn numpy pandas flask waitress
+
+FROM python:3.14-windowsservercore-ltsc2025
+
+LABEL org.opencontainers.image.title="Weather App" `
+      org.opencontainers.image.description="A Python-based weather prediction service" `
+      org.opencontainers.image.source="https://github.com/CMC-NCKH-2026/Weather_forcasting" `
+      org.opencontainers.image.version="1.0.0"
+
+WORKDIR C:\weather
+ENV PORT="3636"
+ENV WAITRESS_THREADS=""
+ENV PURE_FLASK="false"
+
+COPY --from=builder C:\Python\Lib\site-packages C:\Python\Lib\site-packages
+COPY --from=builder C:\Python\Scripts C:\Python\Scripts
+
+COPY . .
+
+RUN net user weather /add && `
+    icacls C:\weather /grant weather:(OI)(CI)F
+
+USER weather
+EXPOSE ${PORT}
+
+ENTRYPOINT ["powershell", "-File", "C:\\weather\\src\\scripts\\docker-entrypoint.ps1"]
