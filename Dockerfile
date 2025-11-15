@@ -3,7 +3,6 @@ FROM python:3.14-alpine AS builder
 WORKDIR /builder
 # in case there is a needed build for wheels, these packages will come in handy (?)
 RUN apk add build-base gfortran pkgconf openblas openblas-dev linux-headers
-RUN python -m venv /opt/venv
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --upgrade pip && \
     pip install scikit-learn numpy pandas flask gunicorn
