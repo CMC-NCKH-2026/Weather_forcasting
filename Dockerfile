@@ -17,6 +17,7 @@ LABEL org.opencontainers.image.title="Weather App" \
 WORKDIR /weather
 ENV PORT="3636"
 ENV GUNICORN_WORKERS=""
+ENV PURE_FLASK="false"
 RUN adduser -D -h /weather weather && apk add --no-cache libgomp libstdc++ && rm -rf /var/cache/apk/*
 COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
 COPY --from=builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
