@@ -22,6 +22,7 @@ RUN adduser -D -h /weather weather && apk add --no-cache libgomp libstdc++ && rm
 COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
 COPY --from=builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
 COPY --chown=weather:weather . .
+RUN rm /weather/src/scripts/docker-entrypoint.ps1
 USER weather
 EXPOSE $PORT
 

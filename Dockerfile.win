@@ -30,7 +30,8 @@ ENV PURE_FLASK="false"
 COPY --from=builder C:\Python\Lib\site-packages C:\Python\Lib\site-packages
 COPY --from=builder C:\Python\Scripts C:\Python\Scripts
 COPY . .
-RUN net user weather /add; `
+RUN Remove-Item -Path C:\weather\src\scripts\docker-entrypoint.sh -Force; `
+    net user weather /add; `
     icacls C:\weather /grant 'weather:(OI)(CI)F'
 USER weather
 EXPOSE ${PORT}
