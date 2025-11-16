@@ -27,12 +27,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract Docker metadata (Linux)
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}
-
       - name: Build and push Docker image (Linux)
         uses: docker/build-push-action@v6
         with:
@@ -40,8 +34,8 @@ jobs:
           push: true
           provenance: false
           platforms: linux/amd64, linux/arm64
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ghcr.io/cmc-nckh-2026/weather_forcasting:main-linux
+          labels: "org.opencontainers.image.source=${{ github.repositoryUrl }}"
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -62,8 +56,44 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push
+      - name: Build and Push (Windows)
         shell: powershell
         run: |
-          docker build . -f Dockerfile.win -t ghcr.io/cmc-nckh-2026/weather_forcasting:main
-          docker push ghcr.io/cmc-nckh-2026/weather_forcasting:main
+          docker build . -f Dockerfile.win -t ghcr.io/cmc-nckh-2026/weather_forcasting:main-windows
+          docker push ghcr.io/cmc-nckh-2026/weather_forcasting:main-windows
+
+  push-manifest:
+    needs: [build-and-push-linux, build-and-push-windows]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create and push multi-arch manifest
+        run: |
+          set -e -o pipefail
+
+          IMAGE_BASE=ghcr.io/cmc-nckh-2026/weather_forcasting
+          SOURCE_TAG="main-linux"
+          EXTRA_IMAGE="main-windows"
+          TARGET_TAG="main"
+
+          source_args=$(docker manifest inspect "$IMAGE_BASE:$SOURCE_TAG" | jq -r '.manifests[].digest' | xargs -I {} printf " --amend %s@%s" "$IMAGE_BASE" "{}")
+
+          if [ -z "$source_args" ]; then
+            echo "Error: Could not find any digests in $IMAGE_BASE:$SOURCE_TAG"
+            exit 1
+          fi
+
+          extra_arg="--amend $IMAGE_BASE:$EXTRA_IMAGE"
+
+          docker manifest create "$IMAGE_BASE:$TARGET_TAG" $source_args $extra_arg
+          docker manifest push "$IMAGE_BASE:$TARGET_TAG"
