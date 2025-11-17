@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -e
-: "${PORT:=3636}"
+: "${PORT:=1515}"
 
 # runs with exec for pid1 enabling better docker process management
 

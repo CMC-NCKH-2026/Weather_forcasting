@@ -57,51 +57,46 @@ def get_temperature_input():
     return input_data
 
 
-def main():
-    """Main function to run the console application."""
-    while True:
-        print("\nChoose a model to use:")
-        print("1. Weather Summary Predictor")
-        print("2. Precipitation Type Predictor")
-        print("3. Temperature Predictor")
-        print("0. Exit")
+# main code block for console_app
+while True:
+    print("\nChoose a model to use:")
+    print("1. Weather Summary Predictor")
+    print("2. Precipitation Type Predictor")
+    print("3. Temperature Predictor")
+    print("0. Exit")
 
-        choice = input("Enter your choice (0-3): ")
+    choice = input("Enter your choice (0-3): ")
 
-        if choice == '1':
-            try:
-                input_data = get_weather_summary_input()
-                predictor = WeatherSummaryPredictor()
-                result = predictor.predict(input_data)
-                print(f"\nPredicted Weather Summary: {result}")
-            except (ValueError, KeyError) as e:
-                print(f"Invalid input: {e}")
+    if choice == '1':
+        try:
+            input_data = get_weather_summary_input()
+            predictor = WeatherSummaryPredictor()
+            result = predictor.predict(input_data)
+            print(f"\nPredicted Weather Summary: {result}")
+        except (ValueError, KeyError) as e:
+            print(f"Invalid input: {e}")
 
-        elif choice == '2':
-            try:
-                input_data = get_precip_type_input()
-                predictor = PrecipTypePredictor()
-                result = predictor.predict(input_data)
-                print(f"\nPredicted Precipitation Type: {result}")
-            except (ValueError, KeyError) as e:
-                print(f"Invalid input: {e}")
+    elif choice == '2':
+        try:
+            input_data = get_precip_type_input()
+            predictor = PrecipTypePredictor()
+            result = predictor.predict(input_data)
+            print(f"\nPredicted Precipitation Type: {result}")
+        except (ValueError, KeyError) as e:
+            print(f"Invalid input: {e}")
 
-        elif choice == '3':
-            try:
-                input_data = get_temperature_input()
-                predictor = TemperaturePredictor()
-                result = predictor.predict(input_data)
-                print(f"\nPredicted Temperature: {result:.2f} C")
-            except (ValueError, KeyError) as e:
-                print(f"Invalid input: {e}")
+    elif choice == '3':
+        try:
+            input_data = get_temperature_input()
+            predictor = TemperaturePredictor()
+            result = predictor.predict(input_data)
+            print(f"\nPredicted Temperature: {result:.2f} C")
+        except (ValueError, KeyError) as e:
+            print(f"Invalid input: {e}")
 
-        elif choice == '0':
-            print("Exiting...")
-            break
+    elif choice == '0':
+        print("Exiting...")
+        break
 
-        else:
-            print("Invalid choice. Please enter a number between 1 and 4.")
-
-
-if __name__ == "__main__":
-    main()
+    else:
+        print("Invalid choice. Please enter a number between 1 and 4.")

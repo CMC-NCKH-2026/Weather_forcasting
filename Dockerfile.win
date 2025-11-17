@@ -24,7 +24,7 @@ LABEL org.opencontainers.image.title="Weather App" `
       org.opencontainers.image.version="1.0.0"
 
 WORKDIR C:\weather
-ENV PORT="3636"
+ENV PORT="1515"
 ENV WAITRESS_THREADS=""
 ENV PURE_FLASK="false"
 COPY --from=builder C:\Python\Lib\site-packages C:\Python\Lib\site-packages
