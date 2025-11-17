@@ -15,7 +15,7 @@ LABEL org.opencontainers.image.title="Weather App" \
       org.opencontainers.image.version="1.0.0"
 
 WORKDIR /weather
-ENV PORT="3636"
+ENV PORT="1515"
 ENV GUNICORN_WORKERS=""
 ENV PURE_FLASK="false"
 RUN adduser -D -h /weather weather && apk add --no-cache libgomp libstdc++ && rm -rf /var/cache/apk/*

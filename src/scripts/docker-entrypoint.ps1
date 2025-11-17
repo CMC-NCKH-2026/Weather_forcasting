@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 if (-not $env:PORT) {
-    $env:PORT = "3636"
+    $env:PORT = "1515"
 }
 
 if ($env:PURE_FLASK -eq "true") {

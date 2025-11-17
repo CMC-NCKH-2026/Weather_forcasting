@@ -11,6 +11,8 @@ app = Flask(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
+
+# root route for serving main traffic
 @app.route('/')
 def index():
     mode = request.args.get('mode', 'summary')
@@ -20,6 +22,7 @@ def index():
     return render_template('index.html', mode=mode, result=result, error=error, form_data=form_data)
 
 
+# post route for weather summary
 @app.route('/predict/summary', methods=['POST'])
 def handle_summary_prediction():
     try:
@@ -51,6 +54,7 @@ def handle_summary_prediction():
         return render_template('index.html', mode='summary', error=error_msg, form_data=request.form)
 
 
+# post route for precipitation
 @app.route('/predict/precip', methods=['POST'])
 def handle_precip_prediction():
     try:
@@ -80,6 +84,7 @@ def handle_precip_prediction():
         return render_template('index.html', mode='precip', error=error_msg, form_data=request.form)
 
 
+# post route for temp predict
 @app.route('/predict/temp', methods=['POST'])
 def handle_temp_prediction():
     try:
@@ -112,14 +117,15 @@ def handle_temp_prediction():
         return render_template('index.html', mode='temp', error=error_msg, form_data=request.form)
 
 
+# main method, can only be run in development/pure flask mode with image
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Run the Weather Prediction App.")
 
     parser.add_argument(
         '-p', '--port',
         type=int,
-        default=3636,
-        help='Port number to run the application on (default: 3636)'
+        default=1515,
+        help='Port number to run the application on (default: 1515)'
     )
 
     args = parser.parse_args()
