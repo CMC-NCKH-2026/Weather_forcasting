@@ -8,11 +8,11 @@ Small-scaled project for analyzing and **predicting** weather datas. Currently h
 - Goal: explore historical weather observations and build forecasting models (regression/classification) to predict future weather-related variables.
 - Main components:
   - `charts/` - Contains the generated analytic charts
-  - `data` - Contains the input data for analyzing
-  - `models` - Contains the models in `joblib` format, trained with `scikit-learn` library
-  - `notebooks` - Contains Jupyter Notebooks for the project
-  - `src` - Contains Docker entrypoint and utility classes for the project
-  - `templates` - Contains the asset for the template of the website user interface
+  - `data/` - Contains the input data for analyzing
+  - `models/` - Contains the models in `joblib` format, trained with `scikit-learn` library
+  - `notebooks/` - Contains Jupyter Notebooks for the project
+  - `src/` - Contains Docker entrypoint and utility classes for the project
+  - `templates/` - Contains the asset for the template of the website user interface
   - `app.py` - Contains the main logic code of the webserver and the entrypoint for development runs
   - `console_app.py` - Prototype console-based app for testing the model predictions
   - `Dockerfile*` - Dockerfiles for creating Linux and Windows-based Docker images for deployment
@@ -25,13 +25,13 @@ Status (90%)
 - Dataset: `data/weatherHistory.csv` (included), `data/processed_weather_data.csv` (after processing, also included).
 - Models: `models/*.joblib` (after processing, also included)
 - `app.py`: Spins up a completely working webserver that interacts with the model predictions.
-- Model predictions still need more fine-tuning for more accurate predictions.
+- In-progress: Model predictions still need more fine-tuning for more accurate predictions.
 
 Quickstart (Deployment)
 -----------------------
 The Docker image runs natively on Linux platforms (`linux/amd64` and `linux/arm64`) and Windows (`windows/amd64`, base 21H2 or later). macOS containers run through a Linux-based hypervisor.
 
-Make sure Docker is installed. When done, run this command to have Docker automatically pull the image and runs it:
+Make sure Docker is installed. When done, run this command to have Docker automatically pull the image and run it:
 ```
 docker run ghcr.io/cmc-nckh-2026/weather_forcasting:main
 ```
@@ -41,7 +41,7 @@ To update the image when a new version is published, run this command to update 
 ```
 docker pull ghcr.io/cmc-nckh-2026/weather_forcasting:main
 ```
-Quickstart (developer)
+Quickstart (Developer)
 ----------------------
 
 Follow these steps to get a local development environment ready. Commands assume a POSIX shell (macOS/Linux, or Git Bash on Windows). Windows Command Prompt / PowerShell equivalents are noted where different.
@@ -92,7 +92,7 @@ jupyter lab
 
 Open the notebooks in the `notebooks/` folder and run cells top-to-bottom.
 
-Contributing (team guidelines)
+Contributing (Team guidelines)
 ------------------------------
 
 We expect team members to follow a lightweight GitHub workflow:
