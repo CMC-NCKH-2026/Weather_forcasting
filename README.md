@@ -35,7 +35,7 @@ Make sure Docker is installed. When done, run this command to have Docker automa
 ```
 docker run ghcr.io/cmc-nckh-2026/weather_forcasting:main
 ```
-You may use `--port port-num` with `port-num` being the listening port you want to customize to instead of the default port `1515`.
+You may set the container environment variable `PORT` to the listening port you want to customize to instead of the default port `1515`. For example, to set the listening port to `3000`, append the argument `-e PORT=3000` to the run command.
 
 To update the image when a new version is published, run this command to update the image:
 ```
